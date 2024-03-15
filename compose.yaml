@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  builder-comfyui:
+    profiles: [builder]
+    build:
+      context: ./build
+      target: comfyui-comfyui
+      args:
+        - PIP_INDEX=https://mirrors.aliyun.com/pypi/simple
+        - APT_MIRROR=mirrors.aliyun.com
+    image: comfyui-comfyui
+
+  comfyui:
+    profiles: [comfyui]
+    image: comfyui-comfyui
+    ports:
+      - "8188:8188"
+    # environment:      
+    #   HTTP_PROXY: 'http://192.168.12.248:7890'
+    #   HTTPS_PROXY: 'http://192.168.12.248:7890'
+    #   NO_PROXY: 'localhost, *.test.lan'
+    volumes:
+      - ./instances/comfyui:/home/ComfyUI
+      - ./models:/home/ComfyUI/models
+      - ./input:/home/ComfyUI/input
+      - ./output:/home/ComfyUI/output
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]

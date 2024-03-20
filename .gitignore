@@ -1,4 +1,2 @@
-/models/*
-/input/*
 /build/requirements_*
-/instances/*
+.env

@@ -2,29 +2,136 @@ version: '3.4'
 
 services:
   builder-comfyui:
-    profiles: [builder]
+    profiles: [builder, builder-comfyui]
     build:
       context: ./build
       target: comfyui-comfyui
-      args:
-        - PIP_INDEX=https://mirrors.aliyun.com/pypi/simple
-        - APT_MIRROR=mirrors.aliyun.com
     image: comfyui-comfyui
+
+  builder-ootd:
+    profiles: [builder, builder-ootd]
+    build:
+      context: ./build
+      target: comfyui-ootd
+    image: comfyui-ootd
+
+  builder-flowty:
+    profiles: [builder, builder-flowty]
+    build:
+      context: ./build
+      target: comfyui-flowty
+    image: comfyui-flowty
+
+  builder-3dpack:
+    profiles: [builder, builder-3dpack]
+    build:
+      context: ./build
+      target: comfyui-3dpack
+    image: comfyui-3dpack
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
 
   comfyui:
     profiles: [comfyui]
     image: comfyui-comfyui
     ports:
       - "8188:8188"
-    # environment:      
-    #   HTTP_PROXY: 'http://192.168.12.248:7890'
-    #   HTTPS_PROXY: 'http://192.168.12.248:7890'
-    #   NO_PROXY: 'localhost, *.test.lan'
+    environment:      
+      HTTP_PROXY: $HTTP_PROXY
+      HTTPS_PROXY: $HTTPS_PROXY
+      NO_PROXY: $NO_PROXY
+      HF_ENDPOINT: $HF_ENDPOINT
     volumes:
       - ./instances/comfyui:/home/ComfyUI
       - ./models:/home/ComfyUI/models
       - ./input:/home/ComfyUI/input
       - ./output:/home/ComfyUI/output
+      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+      - ./workflows:/home/ComfyUI/pysssss-workflows
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+
+  comfyui-ootd:
+    profiles: [comfyui-ootd]
+    image: comfyui-ootd
+    ports:
+      - "8187:8188"
+    environment:      
+      HTTP_PROXY: $HTTP_PROXY
+      HTTPS_PROXY: $HTTPS_PROXY
+      NO_PROXY: $NO_PROXY
+      HF_ENDPOINT: $HF_ENDPOINT
+    volumes:
+      - ./instances/ootd:/home/ComfyUI
+      - ./models:/home/ComfyUI/models
+      - ./input:/home/ComfyUI/input
+      - ./output:/home/ComfyUI/output
+      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+      - ./workflows:/home/ComfyUI/pysssss-workflows
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+
+  comfyui-flowty:
+    profiles: [comfyui-flowty]
+    image: comfyui-flowty
+    ports:
+      - "8186:8188"
+    environment:      
+      HTTP_PROXY: $HTTP_PROXY
+      HTTPS_PROXY: $HTTPS_PROXY
+      NO_PROXY: $NO_PROXY
+      HF_ENDPOINT: $HF_ENDPOINT
+    volumes:
+      - ./instances/flowty:/home/ComfyUI
+      - ./models:/home/ComfyUI/models
+      - ./input:/home/ComfyUI/input
+      - ./output:/home/ComfyUI/output
+      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+      - ./workflows:/home/ComfyUI/pysssss-workflows
+      - ./models/crm/CRM.pth:/home/ComfyUI/models/checkpoints/CRM.pth
+      - ./models/crm/ccm-diffusion.pth:/home/ComfyUI/models/checkpoints/ccm-diffusion.pth
+      - ./models/crm/pixel-diffusion.pth:/home/ComfyUI/models/checkpoints/pixel-diffusion.pth
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+
+  comfyui-3dpack:
+    profiles: [comfyui-3dpack]
+    image: comfyui-3dpack
+    ports:
+      - "8185:8188"
+    environment:
+      HTTP_PROXY: $HTTP_PROXY
+      HTTPS_PROXY: $HTTPS_PROXY
+      NO_PROXY: $NO_PROXY
+      HF_ENDPOINT: $HF_ENDPOINT
+    volumes:
+      - ./instances/3dpack:/home/ComfyUI
+      - ./models:/home/ComfyUI/models
+      - ./input:/home/ComfyUI/input
+      - ./output:/home/ComfyUI/output
+      - ./models/crm:/home/ComfyUI/custom_nodes/ComfyUI-3D-Pack/checkpoints/crm
+      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+      - ./workflows:/home/ComfyUI/pysssss-workflows
     deploy:
       resources:
         reservations:

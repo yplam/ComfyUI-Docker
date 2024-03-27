@@ -14,6 +14,7 @@ docker compose --profile comfyui up
 Support profiles:
 
 * comfyui: common profile for basic workflow
+* video: common profile for video workflow
 * ootd: [OOTDiffusion](https://github.com/AuroBit/ComfyUI-OOTDiffusion)
 * 3dpack: [ComfyUI-3D-Pack](https://github.com/MrForExample/ComfyUI-3D-Pack)
 * flowty: [ComfyUI-Flowty-CRM](https://github.com/flowtyone/ComfyUI-Flowty-CRM)

@@ -12,6 +12,7 @@ if [ ! -f $instance_name ]; then
 fi
 
 readarray base_nodes < base
+readarray video_base_nodes < video
 readarray instance_nodes < $instance_name
 
 cd ./instances
@@ -37,6 +38,14 @@ node_dirs=$(ls -d */)
 
 if [ "$instance_name" != "base" ]; then
     for i in "${base_nodes[@]}"
+    do
+        git clone --depth=1 $i
+    done
+fi
+
+if [[ "$instance_name" == *"_video" ]]; then
+    echo "clone video base node"
+    for i in "${video_base_nodes[@]}"
     do
         git clone --depth=1 $i
     done

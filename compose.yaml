@@ -8,13 +8,6 @@ services:
       target: comfyui-comfyui
     image: comfyui-comfyui
 
-  builder-video:
-    profiles: [builder, builder-video]
-    build:
-      context: ./build
-      target: comfyui-video
-    image: comfyui-video
-
   builder-ootd:
     profiles: [builder, builder-ootd]
     build:
@@ -22,30 +15,12 @@ services:
       target: comfyui-ootd
     image: comfyui-ootd
 
-  builder-flowty:
-    profiles: [builder, builder-flowty]
-    build:
-      context: ./build
-      target: comfyui-flowty
-    image: comfyui-flowty
-
   builder-3dpack:
     profiles: [builder, builder-3dpack]
     build:
       context: ./build
       target: comfyui-3dpack
     image: comfyui-3dpack
-
-  builder-controlnet-video:
-    profiles: [builder, builder-controlnet-video]
-    build:
-      context: ./build
-      target: comfyui-controlnet-video
-      args:      
-        HTTP_PROXY: $HTTP_PROXY
-        HTTPS_PROXY: $HTTPS_PROXY
-        NO_PROXY: $NO_PROXY
-    image: comfyui-controlnet-video
     
   comfyui:
     profiles: [comfyui, comfyui-comfyui]
@@ -63,6 +38,7 @@ services:
       - ./input:/home/ComfyUI/app/input
       - ./output:/home/ComfyUI/app/output
       - ./workflows:/home/ComfyUI/app/pysssss-workflows
+      - ./docs:/home/ComfyUI/app/web/docs
       - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
     deploy:
       resources:
@@ -88,35 +64,8 @@ services:
       - ./input:/home/ComfyUI/app/input
       - ./output:/home/ComfyUI/app/output
       - ./workflows:/home/ComfyUI/app/pysssss-workflows
+      - ./docs:/home/ComfyUI/app/web/docs
       - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['0']
-              capabilities: [gpu]
-
-  comfyui-flowty:
-    profiles: [comfyui, comfyui-flowty]
-    image: comfyui-flowty
-    ports:
-      - "8186:8188"
-    environment:      
-      HTTP_PROXY: $HTTP_PROXY
-      HTTPS_PROXY: $HTTPS_PROXY
-      NO_PROXY: $NO_PROXY
-      HF_ENDPOINT: $HF_ENDPOINT
-    volumes:
-      - ./instances/flowty:/home/ComfyUI/app
-      - ./models:/home/ComfyUI/app/models
-      - ./input:/home/ComfyUI/app/input
-      - ./output:/home/ComfyUI/app/output
-      - ./workflows:/home/ComfyUI/app/pysssss-workflows
-      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
-      - ./models/crm/CRM.pth:/home/ComfyUI/app/models/checkpoints/CRM.pth
-      - ./models/crm/ccm-diffusion.pth:/home/ComfyUI/app/models/checkpoints/ccm-diffusion.pth
-      - ./models/crm/pixel-diffusion.pth:/home/ComfyUI/app/models/checkpoints/pixel-diffusion.pth
     deploy:
       resources:
         reservations:
@@ -129,7 +78,7 @@ services:
     profiles: [comfyui, comfyui-3dpack]
     image: comfyui-3dpack
     ports:
-      - "8185:8188"
+      - "8186:8188"
     environment:
       HTTP_PROXY: $HTTP_PROXY
       HTTPS_PROXY: $HTTPS_PROXY
@@ -141,34 +90,9 @@ services:
       - ./input:/home/ComfyUI/app/input
       - ./output:/home/ComfyUI/app/output
       - ./workflows:/home/ComfyUI/app/pysssss-workflows
+      - ./docs:/home/ComfyUI/app/web/docs
       - ./models/crm:/home/ComfyUI/app/custom_nodes/ComfyUI-3D-Pack/checkpoints/crm
       - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['0']
-              capabilities: [gpu]
-
-  comfyui-controlnet-video:
-    profiles: [comfyui, comfyui-controlnet-video]
-    image: comfyui-controlnet-video
-    ports:
-      - "8184:8188"
-    environment:
-      HTTP_PROXY: $HTTP_PROXY
-      HTTPS_PROXY: $HTTPS_PROXY
-      NO_PROXY: $NO_PROXY
-      HF_ENDPOINT: $HF_ENDPOINT
-    volumes:
-      - ./instances/controlnet_video:/home/ComfyUI/app
-      - ./models:/home/ComfyUI/app/models
-      - ./input:/home/ComfyUI/app/input
-      - ./output:/home/ComfyUI/app/output
-      - ./workflows:/home/ComfyUI/app/pysssss-workflows
-      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
-
     deploy:
       resources:
         reservations:

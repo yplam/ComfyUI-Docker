@@ -1,0 +1,23 @@
+{
+    "comfyui": "fd7c63668080f8c2eb56edffeef028aa3932e0fe",
+    "git_custom_nodes": {
+        "https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git": {
+            "hash": "3f2c021e50be2fed3c9d1552ee8dcaae06ad1fe5",
+            "disabled": false
+        },
+        "https://github.com/crystian/ComfyUI-Crystools.git": {
+            "hash": "bfbfd121a245d04ce7d06ccc36acdb9873c47d9d",
+            "disabled": false
+        },
+        "https://github.com/ltdrdata/ComfyUI-Manager.git": {
+            "hash": "2fee89f79d94eb3b3b3c49f0bf6c71735f975827",
+            "disabled": false
+        }
+    },
+    "file_custom_nodes": [
+        {
+            "filename": "websocket_image_save.py",
+            "disabled": false
+        }
+    ]
+}

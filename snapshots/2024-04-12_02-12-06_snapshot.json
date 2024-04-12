@@ -1,0 +1,51 @@
+{
+    "comfyui": "fd7c63668080f8c2eb56edffeef028aa3932e0fe",
+    "git_custom_nodes": {
+        "https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git": {
+            "hash": "3f2c021e50be2fed3c9d1552ee8dcaae06ad1fe5",
+            "disabled": false
+        },
+        "https://github.com/Fannovel16/comfyui_controlnet_aux": {
+            "hash": "c0b33402d9cfdc01c4e0984c26e5aadfae948e05",
+            "disabled": false
+        },
+        "https://github.com/cubiq/ComfyUI_IPAdapter_plus": {
+            "hash": "417d806e7a2153c98613e86407c1941b2b348e88",
+            "disabled": false
+        },
+        "https://github.com/crystian/ComfyUI-Crystools.git": {
+            "hash": "bfbfd121a245d04ce7d06ccc36acdb9873c47d9d",
+            "disabled": false
+        },
+        "https://github.com/LykosAI/ComfyUI-Inference-Core-Nodes": {
+            "hash": "e94fb0a5fc78c363dd67ecb2ba8135a345033f45",
+            "disabled": false
+        },
+        "https://github.com/ltdrdata/ComfyUI-Inspire-Pack": {
+            "hash": "f4186951fb823683f7b231104e6f9e23d7f77ab8",
+            "disabled": false
+        },
+        "https://github.com/cubiq/ComfyUI_essentials": {
+            "hash": "78fa0fdc397760a1e4239d43011015d17f70291e",
+            "disabled": false
+        },
+        "https://github.com/ltdrdata/ComfyUI-Manager.git": {
+            "hash": "2fee89f79d94eb3b3b3c49f0bf6c71735f975827",
+            "disabled": false
+        },
+        "https://github.com/jags111/efficiency-nodes-comfyui": {
+            "hash": "3b7e89d969c02b80ff3662f34813679167b835fa",
+            "disabled": false
+        },
+        "https://github.com/ltdrdata/ComfyUI-Impact-Pack": {
+            "hash": "8ffc4efcd6a12649ba5f524602dd24a74ea8145b",
+            "disabled": false
+        }
+    },
+    "file_custom_nodes": [
+        {
+            "filename": "websocket_image_save.py",
+            "disabled": false
+        }
+    ]
+}

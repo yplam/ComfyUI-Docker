@@ -5,22 +5,22 @@ services:
     profiles: [builder, builder-comfyui]
     build:
       context: ./build
-      target: comfyui-comfyui
+      target: comfyui
     image: comfyui-comfyui
 
-  builder-ootd:
-    profiles: [builder, builder-ootd]
-    build:
-      context: ./build
-      target: comfyui-ootd
-    image: comfyui-ootd
+  # builder-ootd:
+  #   profiles: [builder, builder-ootd]
+  #   build:
+  #     context: ./build
+  #     target: comfyui-ootd
+  #   image: comfyui-ootd
 
-  builder-3dpack:
-    profiles: [builder, builder-3dpack]
-    build:
-      context: ./build
-      target: comfyui-3dpack
-    image: comfyui-3dpack
+  # builder-3dpack:
+  #   profiles: [builder, builder-3dpack]
+  #   build:
+  #     context: ./build
+  #     target: comfyui-3dpack
+  #   image: comfyui-3dpack
     
   comfyui:
     profiles: [comfyui, comfyui-comfyui]
@@ -38,8 +38,38 @@ services:
       - ./input:/home/ComfyUI/app/input
       - ./output:/home/ComfyUI/app/output
       - ./workflows:/home/ComfyUI/app/pysssss-workflows
+      - ./snapshots:/home/ComfyUI/app/custom_nodes/ComfyUI-Manager/snapshots
       - ./docs:/home/ComfyUI/app/web/docs
       - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+      - ./cache/torch:/home/ComfyUI/.cache/torch
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+
+  comfyui-video:
+    profiles: [comfyui, comfyui-video]
+    image: comfyui-comfyui
+    ports:
+      - "8187:8188"
+    environment:      
+      HTTP_PROXY: $HTTP_PROXY
+      HTTPS_PROXY: $HTTPS_PROXY
+      NO_PROXY: $NO_PROXY
+      HF_ENDPOINT: $HF_ENDPOINT
+    volumes:
+      - ./instances/video:/home/ComfyUI/app
+      - ./models:/home/ComfyUI/app/models
+      - ./input:/home/ComfyUI/app/input
+      - ./output:/home/ComfyUI/app/output
+      - ./workflows:/home/ComfyUI/app/pysssss-workflows
+      - ./snapshots:/home/ComfyUI/app/custom_nodes/ComfyUI-Manager/snapshots
+      - ./docs:/home/ComfyUI/app/web/docs
+      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+      - ./cache/torch:/home/ComfyUI/.cache/torch
     deploy:
       resources:
         reservations:
@@ -50,9 +80,9 @@ services:
 
   comfyui-ootd:
     profiles: [comfyui, comfyui-ootd]
-    image: comfyui-ootd
+    image: comfyui-comfyui
     ports:
-      - "8187:8188"
+      - "8186:8188"
     environment:      
       HTTP_PROXY: $HTTP_PROXY
       HTTPS_PROXY: $HTTPS_PROXY
@@ -64,8 +94,10 @@ services:
       - ./input:/home/ComfyUI/app/input
       - ./output:/home/ComfyUI/app/output
       - ./workflows:/home/ComfyUI/app/pysssss-workflows
+      - ./snapshots:/home/ComfyUI/app/custom_nodes/ComfyUI-Manager/snapshots
       - ./docs:/home/ComfyUI/app/web/docs
       - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+      - ./cache/torch:/home/ComfyUI/.cache/torch
     deploy:
       resources:
         reservations:
@@ -74,29 +106,29 @@ services:
               device_ids: ['0']
               capabilities: [gpu]
 
-  comfyui-3dpack:
-    profiles: [comfyui, comfyui-3dpack]
-    image: comfyui-3dpack
-    ports:
-      - "8186:8188"
-    environment:
-      HTTP_PROXY: $HTTP_PROXY
-      HTTPS_PROXY: $HTTPS_PROXY
-      NO_PROXY: $NO_PROXY
-      HF_ENDPOINT: $HF_ENDPOINT
-    volumes:
-      - ./instances/3dpack:/home/ComfyUI/app
-      - ./models:/home/ComfyUI/app/models
-      - ./input:/home/ComfyUI/app/input
-      - ./output:/home/ComfyUI/app/output
-      - ./workflows:/home/ComfyUI/app/pysssss-workflows
-      - ./docs:/home/ComfyUI/app/web/docs
-      - ./models/crm:/home/ComfyUI/app/custom_nodes/ComfyUI-3D-Pack/checkpoints/crm
-      - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['0']
-              capabilities: [gpu]
+  # comfyui-3dpack:
+  #   profiles: [comfyui, comfyui-3dpack]
+  #   image: comfyui-3dpack
+  #   ports:
+  #     - "8186:8188"
+  #   environment:
+  #     HTTP_PROXY: $HTTP_PROXY
+  #     HTTPS_PROXY: $HTTPS_PROXY
+  #     NO_PROXY: $NO_PROXY
+  #     HF_ENDPOINT: $HF_ENDPOINT
+  #   volumes:
+  #     - ./instances/3dpack:/home/ComfyUI/app
+  #     - ./models:/home/ComfyUI/app/models
+  #     - ./input:/home/ComfyUI/app/input
+  #     - ./output:/home/ComfyUI/app/output
+  #     - ./workflows:/home/ComfyUI/app/pysssss-workflows
+  #     - ./docs:/home/ComfyUI/app/web/docs
+  #     - ./models/crm:/home/ComfyUI/app/custom_nodes/ComfyUI-3D-Pack/checkpoints/crm
+  #     - ./cache/huggingface:/home/ComfyUI/.cache/huggingface
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             device_ids: ['0']
+  #             capabilities: [gpu]
